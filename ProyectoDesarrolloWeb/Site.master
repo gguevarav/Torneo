@@ -51,13 +51,19 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li><a runat="server" href="~/">Inicio</a></li>
+                        <li><a runat="server" href="~/Account/frmCrearTorneo">Crear Torneo</a></li>
+                        <li><a runat="server" href="~/Account/frmCrearSede">Crear Sede</a></li>
+                        <li><a runat="server" href="~/Account/frmCrearEquipo">Crear Equipo</a></li>
+                        <li><a runat="server" href="~/Account/frmRegistrarTecnico">Registrar Técnico</a></li>
+                        <li><a runat="server" href="~/Account/frmRegistrarArbitro">Registrar Arbitro</a></li>
+                        <li><a runat="server" href="~/Account/frmRegistrarJugador">Registrar Jugador</a></li>
                         <li><a runat="server" href="~/About">Acerca de</a></li>
                         <li><a runat="server" href="~/Contact">Contacto</a></li>
                     </ul>
                     <asp:LoginView runat="server" ViewStateMode="Disabled">
                         <AnonymousTemplate>
                             <ul class="nav navbar-nav navbar-right">
-                                <li><a runat="server" href="~/Account/Register">Registrarse</a></li>
+                                <li><a runat="server" href="~/Account/frmCrearUsuario">Crear Usuarios</a></li>
                                 <li><a runat="server" href="~/Account/Login">Iniciar sesión</a></li>
                             </ul>
                         </AnonymousTemplate>
