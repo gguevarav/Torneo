@@ -10,10 +10,8 @@ Imports System.Diagnostics
 
 Partial Public Class RegistrarSede
     Inherits Page
-    ' Creación e instancia del Objeto para la conexión
-    Dim Conexion As New Conexion()
     ' Creación e instancia del objeto de Consultas
-    Dim Consult As New Consulta()
+    Dim Consult As New clsConsultas()
     Protected Sub RegistrarSede()
         ' Variables para uso en parámetros
         ' Información de la Sede
@@ -23,7 +21,7 @@ Partial Public Class RegistrarSede
         Dim Tabla As String = "Sede"
         Dim Campos As String = "Nombre, Ubicacion, Capacidad"
         Try
-            Consult.InsertarDatos(Tabla, Conexion.ConexionBaseDatosPostgres(), Campos, ValoresInsertarSede)
+            Consult.InsertarDatos(Tabla, Campos, ValoresInsertarSede)
         Catch ex As Exception
             Debug.Write(ex)
         End Try

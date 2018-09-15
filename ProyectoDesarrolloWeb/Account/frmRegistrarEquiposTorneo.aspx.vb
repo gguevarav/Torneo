@@ -11,23 +11,19 @@ Imports System.Data
 
 Partial Public Class CrearEquipo
     Inherits Page
-    ' Creación e instancia del Objeto para la conexión
-    Dim Conexion As New Conexion()
     ' Creación e instancia del objeto de Consultas
-    Dim Consult As New Consulta()
+    Dim Consult As New clsConsultas()
     ' Correlativo de la tabla
     Dim Correlativo As Integer = 1
     Protected Sub Page_Load()
-        ' Cuando carga la página debe mostrar los datos en los ComboBox
-        Dim Consult As New Consulta()
         Dim TablaTorneo As String = "Torneo"
         Dim TablaEquipo As String = "Equipo"
         Dim Campos As String = "*"
         Dim DatosTorneo As NpgsqlDataReader
         Dim DatosEquipo As NpgsqlDataReader
         Try
-            DatosTorneo = Consult.SentenciaSelectSinCondiciones(TablaTorneo, Campos, Conexion.ConexionBaseDatosPostgres)
-            DatosEquipo = Consult.SentenciaSelectSinCondiciones(TablaEquipo, Campos, Conexion.ConexionBaseDatosPostgres)
+            DatosTorneo = Consult.SentenciaSelectSinCondiciones(TablaTorneo, Campos)
+            DatosEquipo = Consult.SentenciaSelectSinCondiciones(TablaEquipo, Campos)
         Catch ex As Exception
             Debug.Write(ex)
         End Try

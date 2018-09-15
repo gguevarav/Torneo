@@ -10,23 +10,22 @@ Imports System.Diagnostics
 
 Partial Public Class RegistrarArbitro
     Inherits Page
-    ' Creación e instancia del Objeto para la conexión
-    Dim Conexion As New Conexion()
     ' Creación e instancia del objeto de Consultas
-    Dim Consult As New Consulta()
+    Dim Consult As New clsConsultas()
     ' Variables para uso en parámetros
     ' Información de la persona
-    Dim ValoresInsertarPersona As String
+    Public Sub RegistrarArbitro()
+        Dim ValoresInsertarPersona As String
         ValoresInsertarPersona = "'" & txtNombreArbitro.Text & "', '" & txtApellidoArbitro.Text & "', '" & calFechaNacimiento.SelectedDate.ToString & "', '" &
             cbxGenero.SelectedValue & "', '" & cbxNacionalidad.SelectedValue & "', '" & txtResidencia.Text & "'"
         ' Información del Arbitro
-        Dim idPersona As Integer = Consult.InsertarPersona(Conexion.ConexionBaseDatosPostgres(), ValoresInsertarPersona)
+        Dim idPersona As Integer = Consult.InsertarPersona(ValoresInsertarPersona)
         ' Almacenamos los valores que se le enviarán al Arbitro
         Dim ValoresInsertarTecnico As String = idPersona.ToString & ", '" & cbxEstado.SelectedValue & "'"
         Dim Tabla As String = "Arbitro"
         Dim Campos As String = "idPersona, Estado"
         Try
-            Consult.InsertarDatos(Tabla, Conexion.ConexionBaseDatosPostgres(), Campos, ValoresInsertarTecnico)
+            Consult.InsertarDatos(Tabla, Campos, ValoresInsertarTecnico)
         Catch ex As Exception
             Debug.Write(ex)
         End Try

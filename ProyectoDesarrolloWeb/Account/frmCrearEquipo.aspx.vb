@@ -10,28 +10,26 @@ Imports System.Diagnostics
 
 Partial Public Class CrearEquipo
     Inherits Page
-    ' Creación e instancia del Objeto para la conexión
-    Dim Conexion As New Conexion()
     ' Creación e instancia del objeto de Consultas
-    Dim Consult As New Consulta()
+    Dim Consult As New clsConsultas()
     Protected Sub Page_Load()
         ' Cuando carga la página debe mostrar los datos en los ComboBox
-        Dim Consult As New Consulta()
+        Dim Consult As New clsConsultas()
         Dim TablaTecnico As String = "Tecnico"
         Dim TablaSede As String = "Sede"
         Dim Campos As String = "*"
         Dim DatosTecnico As NpgsqlDataReader
         Dim DatosSede As NpgsqlDataReader
         Try
-            DatosTecnico = Consult.SentenciaSelectSinCondiciones(TablaTecnico, Campos, Conexion.ConexionBaseDatosPostgres)
-            DatosSede = Consult.SentenciaSelectSinCondiciones(TablaSede, Campos, Conexion.ConexionBaseDatosPostgres)
+            DatosTecnico = Consult.SentenciaSelectSinCondiciones(TablaTecnico, Campos)
+            DatosSede = Consult.SentenciaSelectSinCondiciones(TablaSede, Campos)
         Catch ex As Exception
             Debug.Write(ex)
         End Try
         ' Agregamos los técnicos leídos
         While DatosTecnico.Read
             Dim Item As ListItem = New ListItem()
-            Item.Text = Consult.ObtenerNombrePersona(DatosTecnico("idPersona"), Conexion.ConexionBaseDatosPostgres)
+            Item.Text = Consult.ObtenerNombrePersona(DatosTecnico("idPersona"))
             Item.Value = DatosTecnico("idTecnico")
             cbxTecnico.Items.Add(Item)
         End While
@@ -51,7 +49,7 @@ Partial Public Class CrearEquipo
         Dim Tabla As String = "Equipo"
         Dim Campos As String = "idSede, Nombre, idTecnico"
         Try
-            Consult.InsertarDatos(Tabla, Conexion.ConexionBaseDatosPostgres(), Campos, ValoresInsertarEquipo)
+            Consult.InsertarDatos(Tabla, Campos, ValoresInsertarEquipo)
         Catch ex As Exception
             Debug.Write(ex)
         End Try

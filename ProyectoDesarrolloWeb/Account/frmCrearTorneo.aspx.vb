@@ -10,10 +10,8 @@ Imports System.Diagnostics
 
 Partial Public Class CrearTorneo
     Inherits Page
-    ' Creación e instancia del Objeto para la conexión
-    Dim Conexion As New Conexion()
     ' Creación e instancia del objeto de Consultas
-    Dim Consult As New Consulta()
+    Dim Consult As New clsConsultas()
     Protected Sub CrearTorneo()
         ' Variables para uso en parámetros
         ' Información del Torneo
@@ -23,7 +21,7 @@ Partial Public Class CrearTorneo
         Dim Tabla As String = "Torneo"
         Dim Campos As String = "Nombre, FechaInicio, FechaFin"
         Try
-            Consult.InsertarDatos(Tabla, Conexion.ConexionBaseDatosPostgres(), Campos, ValoresInsertarTorneo)
+            Consult.InsertarDatos(Tabla, Campos, ValoresInsertarTorneo)
         Catch ex As Exception
             Debug.Write(ex)
         End Try

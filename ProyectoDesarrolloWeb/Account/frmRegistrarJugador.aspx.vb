@@ -10,13 +10,10 @@ Imports System.Diagnostics
 
 Partial Public Class RegistrarJugador
     Inherits Page
-    ' Creación e instancia del Objeto para la conexión
-    Dim Conexion As New Conexion()
     ' Creación e instancia del objeto de Consultas
-    Dim Consult As New Consulta()
+    Dim Consult As New clsConsultas()
     Protected Sub Page_Load()
         ' Cuando carga la página debe mostrar los datos en los ComboBox
-        Dim Consult As New Consulta()
         Dim TablaEquipo As String = "Equipo"
         Dim Campos As String = "*"
         Dim DatosEquipo As NpgsqlDataReader
