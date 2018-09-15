@@ -18,7 +18,7 @@ Partial Public Class RegistrarJugador
         Dim Campos As String = "*"
         Dim DatosEquipo As NpgsqlDataReader
         Try
-            DatosEquipo = Consult.SentenciaSelectSinCondiciones(TablaEquipo, Campos, Conexion.ConexionBaseDatosPostgres)
+            DatosEquipo = Consult.SentenciaSelectSinCondiciones(TablaEquipo, Campos)
         Catch ex As Exception
             Debug.Write(ex)
         End Try
@@ -38,13 +38,13 @@ Partial Public Class RegistrarJugador
         ValoresInsertarPersona = "'" & txtNombreJugador.Text & "', '" & txtApellidoJugador.Text & "', '" & calFechaNacimiento.SelectedDate.ToString & "', '" &
             cbxGenero.SelectedValue & "', '" & cbxNacionalidad.SelectedValue & "', '" & txtResidencia.Text & "'"
         ' Información del jugador
-        Dim idPersona As Integer = Consult.InsertarPersona(Conexion.ConexionBaseDatosPostgres(), ValoresInsertarPersona)
+        Dim idPersona As Integer = Consult.InsertarPersona(ValoresInsertarPersona)
         ' Almacenamos los valores que se le enviarán al jugador
         Dim ValoresInsertarJugador As String
         ValoresInsertarJugador = idPersona.ToString & ", " & cbxEquipo.SelectedValue.ToString & ", " & txtNumeroJugador.Text & ", '" &
             calFechaIncio.SelectedDate.ToString & "', '" & calFechaFin.SelectedDate.ToString & "', '" & cbxEstado.SelectedValue & "'"
         Try
-            Consult.InsertarJugador(Conexion.ConexionBaseDatosPostgres(), ValoresInsertarJugador)
+            Consult.InsertarJugador(ValoresInsertarJugador)
         Catch ex As Exception
             Debug.Write(ex)
         End Try
