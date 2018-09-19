@@ -6,7 +6,7 @@ Public Class clsConexion
     Public Function ConexionBaseDatosPostgres() As NpgsqlConnection
         ' Variables
         'Dim Mensaje As String
-        Dim configuracion As ConnectionStringSettings = ConfigurationManager.ConnectionStrings("BDTorneo_PruebaConnectionString")
+        Dim configuracion As ConnectionStringSettings = ConfigurationManager.ConnectionStrings("ConnectionStringTorneo")
         Dim MiConeccion As NpgsqlConnection = New NpgsqlConnection With {
             .ConnectionString = configuracion.ConnectionString
         }

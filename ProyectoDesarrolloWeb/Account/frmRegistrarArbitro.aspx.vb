@@ -11,7 +11,7 @@ Imports System.Diagnostics
 Partial Public Class RegistrarArbitro
     Inherits Page
     ' Creación e instancia del objeto de Consultas
-    Dim Consult As New clsConsultas()
+    Dim Consulta As New clsConsultas()
     ' Variables para uso en parámetros
     ' Información de la persona
     Public Sub RegistrarArbitro()
@@ -19,13 +19,13 @@ Partial Public Class RegistrarArbitro
         ValoresInsertarPersona = "'" & txtNombreArbitro.Text & "', '" & txtApellidoArbitro.Text & "', '" & calFechaNacimiento.SelectedDate.ToString & "', '" &
             cbxGenero.SelectedValue & "', '" & cbxNacionalidad.SelectedValue & "', '" & txtResidencia.Text & "'"
         ' Información del Arbitro
-        Dim idPersona As Integer = Consult.InsertarPersona(ValoresInsertarPersona)
+        Dim idPersona As Integer = Consulta.InsertarPersona(ValoresInsertarPersona)
         ' Almacenamos los valores que se le enviarán al Arbitro
         Dim ValoresInsertarTecnico As String = idPersona.ToString & ", '" & cbxEstado.SelectedValue & "'"
         Dim Tabla As String = "Arbitro"
         Dim Campos As String = "idPersona, Estado"
         Try
-            Consult.InsertarDatos(Tabla, Campos, ValoresInsertarTecnico)
+            Consulta.InsertarDatos(Tabla, Campos, ValoresInsertarTecnico)
         Catch ex As Exception
             Debug.Write(ex)
         End Try

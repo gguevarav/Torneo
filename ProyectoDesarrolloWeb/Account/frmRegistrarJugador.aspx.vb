@@ -11,14 +11,14 @@ Imports System.Diagnostics
 Partial Public Class RegistrarJugador
     Inherits Page
     ' Creación e instancia del objeto de Consultas
-    Dim Consult As New clsConsultas()
+    Dim Consulta As New clsConsultas()
     Protected Sub Page_Load()
         ' Cuando carga la página debe mostrar los datos en los ComboBox
         Dim TablaEquipo As String = "Equipo"
         Dim Campos As String = "*"
         Dim DatosEquipo As NpgsqlDataReader
         Try
-            DatosEquipo = Consult.SentenciaSelectSinCondiciones(TablaEquipo, Campos)
+            DatosEquipo = Consulta.SentenciaSelectSinCondiciones(TablaEquipo, Campos)
         Catch ex As Exception
             Debug.Write(ex)
         End Try
@@ -38,13 +38,13 @@ Partial Public Class RegistrarJugador
         ValoresInsertarPersona = "'" & txtNombreJugador.Text & "', '" & txtApellidoJugador.Text & "', '" & calFechaNacimiento.SelectedDate.ToString & "', '" &
             cbxGenero.SelectedValue & "', '" & cbxNacionalidad.SelectedValue & "', '" & txtResidencia.Text & "'"
         ' Información del jugador
-        Dim idPersona As Integer = Consult.InsertarPersona(ValoresInsertarPersona)
+        Dim idPersona As Integer = Consulta.InsertarPersona(ValoresInsertarPersona)
         ' Almacenamos los valores que se le enviarán al jugador
         Dim ValoresInsertarJugador As String
         ValoresInsertarJugador = idPersona.ToString & ", " & cbxEquipo.SelectedValue.ToString & ", " & txtNumeroJugador.Text & ", '" &
             calFechaIncio.SelectedDate.ToString & "', '" & calFechaFin.SelectedDate.ToString & "', '" & cbxEstado.SelectedValue & "'"
         Try
-            Consult.InsertarJugador(ValoresInsertarJugador)
+            Consulta.InsertarJugador(ValoresInsertarJugador)
         Catch ex As Exception
             Debug.Write(ex)
         End Try

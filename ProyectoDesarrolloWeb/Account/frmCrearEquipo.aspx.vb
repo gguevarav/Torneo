@@ -11,34 +11,34 @@ Imports System.Diagnostics
 Partial Public Class CrearEquipo
     Inherits Page
     ' Creación e instancia del objeto de Consultas
-    Dim Consult As New clsConsultas()
+    Dim Consulta As New clsConsultas()
     Protected Sub Page_Load()
-        ' Cuando carga la página debe mostrar los datos en los ComboBox
-        Dim Consult As New clsConsultas()
-        Dim TablaTecnico As String = "Tecnico"
-        Dim TablaSede As String = "Sede"
-        Dim Campos As String = "*"
-        Dim DatosTecnico As NpgsqlDataReader
-        Dim DatosSede As NpgsqlDataReader
-        Try
-            DatosTecnico = Consult.SentenciaSelectSinCondiciones(TablaTecnico, Campos)
-            DatosSede = Consult.SentenciaSelectSinCondiciones(TablaSede, Campos)
-        Catch ex As Exception
-            Debug.Write(ex)
-        End Try
-        ' Agregamos los técnicos leídos
-        While DatosTecnico.Read
-            Dim Item As ListItem = New ListItem()
-            Item.Text = Consult.ObtenerNombrePersona(DatosTecnico("idPersona"))
-            Item.Value = DatosTecnico("idTecnico")
-            cbxTecnico.Items.Add(Item)
-        End While
-        While DatosSede.Read
-            Dim Item As ListItem = New ListItem()
-            Item.Text = DatosSede("Nombre")
-            Item.Value = DatosSede("idSede")
-            cbxSede.Items.Add(Item)
-        End While
+        If (cbxSede.SelectedValue = "") Then
+            Dim TablaTecnico As String = "Tecnico"
+            Dim TablaSede As String = "Sede"
+            Dim Campos As String = "*"
+            Dim DatosTecnico As NpgsqlDataReader
+            Dim DatosSede As NpgsqlDataReader
+            Try
+                DatosTecnico = Consulta.SentenciaSelectSinCondiciones(TablaTecnico, Campos)
+                DatosSede = Consulta.SentenciaSelectSinCondiciones(TablaSede, Campos)
+                ' Agregamos los técnicos leídos
+                While DatosTecnico.Read
+                    Dim Item As ListItem = New ListItem()
+                    Item.Text = Consulta.ObtenerNombrePersona(DatosTecnico("idPersona"))
+                    Item.Value = DatosTecnico("idTecnico")
+                    cbxTecnico.Items.Add(Item)
+                End While
+                While DatosSede.Read
+                    Dim Item As ListItem = New ListItem()
+                    Item.Text = DatosSede("Nombre")
+                    Item.Value = DatosSede("idSede")
+                    cbxSede.Items.Add(Item)
+                End While
+            Catch ex As Exception
+                Debug.Write(ex)
+            End Try
+        End If
     End Sub
     Protected Sub CrearEquipo()
         ' Variables para uso en parámetros
@@ -49,7 +49,7 @@ Partial Public Class CrearEquipo
         Dim Tabla As String = "Equipo"
         Dim Campos As String = "idSede, Nombre, idTecnico"
         Try
-            Consult.InsertarDatos(Tabla, Campos, ValoresInsertarEquipo)
+            Consulta.InsertarDatos(Tabla, Campos, ValoresInsertarEquipo)
         Catch ex As Exception
             Debug.Write(ex)
         End Try
