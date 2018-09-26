@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%: Page.Title %> - Mi aplicación ASP.NET</title>
+    <title><%: Page.Title %> - Torneo</title>
 
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/bundles/modernizr") %>
@@ -46,13 +46,51 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" runat="server" href="~/">Nombre de la aplicación</a>
+                    <a class="navbar-brand" runat="server" href="~/">Torneo</a>
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a runat="server" href="~/">Inicio</a></li>
-                        <li><a runat="server" href="~/About">Acerca de</a></li>
-                        <li><a runat="server" href="~/Contact">Contacto</a></li>
+                        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Sede<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a runat="server" href="~/Account/frmCrearSede">Crear sede</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Jugador<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a runat="server" href="~/Account/frmRegistrarJugador">Registrar jugador</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Técnico<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a runat="server" href="~/Account/frmRegistrarTecnico">Registrar técnico</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Arbitro<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a runat="server" href="~/Account/frmRegistrarArbitro">Registrar arbitro</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Equipo<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a runat="server" href="~/Account/frmCrearEquipo">Crear equipo</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Torneo<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a runat="server" href="~/Account/frmCrearTorneo">Crear torneo</a></li>
+                                <li><a runat="server" href="~/Account/frmRegistrarEquiposTorneo">Registrar equipos en torneo</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Partido<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a runat="server" href="~/Account/frmCrearPartido">Crear partido</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Usuarios<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a runat="server" href="~/Account/frmCrearUsuario">Crear usuario</a></li>
+                            </ul>
+                        </li>
                     </ul>
                     <asp:LoginView runat="server" ViewStateMode="Disabled">
                         <AnonymousTemplate>
@@ -78,7 +116,7 @@
             </asp:ContentPlaceHolder>
             <hr />
             <footer>
-                <p>&copy; <%: DateTime.Now.Year %> - Mi aplicación ASP.NET</p>
+                <p>&copy; <%: DateTime.Now.Year %> - Torneo</p>
             </footer>
         </div>
     </form>

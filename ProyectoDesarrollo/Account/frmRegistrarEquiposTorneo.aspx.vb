@@ -15,6 +15,10 @@ Partial Public Class CrearEquipo
     Dim Consulta As New clsConsultas()
     ' Correlativo de la tabla
     Dim Correlativo As Integer = 1
+    ' Creamos la tabla
+    Dim Tabla As New DataTable()
+    ' Creamos el objeto row
+    Dim Row As DataRow
     Protected Sub Page_Load()
         If (cbxTorneo.SelectedValue.ToString = "") Then
             Dim TablaTorneo As String = "Torneo"
@@ -41,30 +45,48 @@ Partial Public Class CrearEquipo
                 Item.Value = DatosEquipo("idEquipo")
                 cbxEquipo.Items.Add(Item)
             End While
+        End If
+        If (Page.IsPostBack = False) Then
             'Agregamos las comlumnas al datagrid
-            Dim DT As New DataTable()
+            Dim Tabla As New DataTable()
             'Agregamos las columnas
-            DT.Columns.Add("No.")
-            DT.Columns.Add("Código")
-            DT.Columns.Add("Nombre Equipo")
-            gridListaEquipos.DataSource = DT
-            gridListaEquipos.DataBind()
+            Tabla.Columns.Add("No.")
+            Tabla.Columns.Add("Codigo Torneo")
+            Tabla.Columns.Add("Nombre Torneo")
+            Tabla.Columns.Add("Codigo Equipo")
+            Tabla.Columns.Add("Nombre Equipo")
+            ' Creamo la variable en la sesión
+            Session("Tabla") = Tabla
         End If
     End Sub
     Protected Sub RegistrarEquipos()
-        ' Variables para uso en parámetros
-        ' Información del Equipo
-        'Dim ValoresInsertarEquipo As String
-        'ValoresInsertarEquipo = "" & cbxSede.SelectedValue.ToString & ", '" & txtNombreEquipo.Text & "', " & cbxTecnico.SelectedValue.ToString & ""
-        ' Tabla y campos a utilizarse
-        'Dim Tabla As String = "Equipo"
-        'Dim Campos As String = "idSede, Nombre, idTecnico"
-        'Try
-        'Consult.InsertarDatos(Tabla, Conexion.ConexionBaseDatosPostgres(), Campos, ValoresInsertarEquipo)
-        'Catch ex As Exception
-        ' Debug.Write(ex)
-        'End Try
+        ' Para insertar los datos debemos leer todas las filas de la tabla
+        For i As Integer = 0 To gridListaEquipos.Rows.Count - 1
+            ' Variables para uso en parámetros
+            ' Tabla y campos a utilizarse
+            Dim Tabla As String = "torneoequipo"
+            Dim Campos As String = "idtorneo, idequipo"
+            ' Información del Equipo
+            Dim ValoresInsertarEquipo As String
+            ValoresInsertarEquipo = gridListaEquipos.Rows(i).Cells(1).Text.ToString & ", " & gridListaEquipos.Rows(i).Cells(3).Text.ToString
+            Try
+                Consulta.InsertarDatos(Tabla, Campos, ValoresInsertarEquipo)
+            Catch ex As Exception
+                Debug.Write(ex)
+            End Try
+        Next
     End Sub
     Protected Sub Agregar()
+        Tabla = Session("Tabla")
+        Row = Tabla.NewRow()
+        Row("No.") = Correlativo.ToString()
+        Row("Codigo Torneo") = cbxTorneo.SelectedValue.ToString()
+        Row("Nombre Torneo") = cbxTorneo.SelectedItem.ToString()
+        Row("Codigo Equipo") = cbxEquipo.SelectedValue.ToString()
+        Row("Nombre Equipo") = cbxEquipo.SelectedItem.ToString()
+        Tabla.Rows.Add(Row)
+        gridListaEquipos.DataSource = Tabla
+        gridListaEquipos.DataBind()
+        Session("Tabla") = Tabla
     End Sub
 End Class

@@ -28,14 +28,9 @@
             </div>
         </div>
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <asp:Button runat="server" OnClick="Agregar" Text="Agregar" CssClass="btn btn-default" ID="btnAgregar" />
-            </div>
-        </div>
-        <div class="form-group">
-            <asp:Label runat="server" AssociatedControlID="gridListaEquipos" CssClass="col-md-2 control-label">Nombre del Torneo</asp:Label>
+            <asp:Label runat="server" AssociatedControlID="gridListaEquipos" CssClass="col-md-2 control-label">Listado de equipos</asp:Label>
             <div class="col-md-10">
-                <asp:GridView ID="gridListaEquipos" CssClass="form-control" runat="server" CellPadding="4" ForeColor="#333333" GridLines="None">
+                <asp:GridView ID="gridListaEquipos" runat="server" CellPadding="4" ForeColor="#333333" GridLines="None">
                     <AlternatingRowStyle BackColor="White" />
                     <EditRowStyle BackColor="#2461BF" />
                     <FooterStyle BackColor="#507CD1" ForeColor="White" Font-Bold="True" />
@@ -48,6 +43,11 @@
                     <SortedDescendingCellStyle BackColor="#E9EBEF" />
                     <SortedDescendingHeaderStyle BackColor="#4870BE" />
                 </asp:GridView>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <asp:Button runat="server" OnClick="Agregar" Text="Agregar" CssClass="btn btn-default" ID="btnAgregar" />
             </div>
         </div>
         <div class="form-group">
