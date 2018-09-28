@@ -10,33 +10,16 @@
         <hr />
         <asp:ValidationSummary runat="server" CssClass="text-danger" />
         <div class="form-group">
-            <asp:Label runat="server" AssociatedControlID="CalFechaPartido" CssClass="col-md-2 control-label">Fecha partido</asp:Label>
+            <asp:Label runat="server" AssociatedControlID="cbxTorneo" CssClass="col-md-2 control-label">Seleccione el torneo</asp:Label>
             <div class="col-md-10">
-                <asp:Calendar ID="CalFechaPartido" runat="server" CssClass="form-control" BackColor="White" BorderColor="White" BorderWidth="1px" Font-Names="Verdana" Font-Size="9pt" ForeColor="Black" Height="190px" NextPrevFormat="FullMonth" Width="350px" SelectedDate="09/17/2018 21:27:04" VisibleDate="2018-09-17">
-                    <DayHeaderStyle Font-Bold="True" Font-Size="8pt" />
-                    <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" VerticalAlign="Bottom" />
-                    <OtherMonthDayStyle ForeColor="#999999" />
-                    <SelectedDayStyle BackColor="#333399" ForeColor="White" />
-                    <TitleStyle BackColor="White" BorderColor="Black" BorderWidth="4px" Font-Bold="True" Font-Size="12pt" ForeColor="#333399" />
-                    <TodayDayStyle BackColor="#CCCCCC" />
-                </asp:Calendar>
+                <asp:DropDownList ID="cbxTorneo" runat="server" CssClass="form-control">
+                </asp:DropDownList>
+                <asp:RequiredFieldValidator runat="server" ControlToValidate="cbxTorneo"
+                    CssClass="text-danger" ErrorMessage="El campo del torneo es obligatorio." />
             </div>
         </div>
         <div class="form-group">
-            <asp:Label runat="server" AssociatedControlID="tmrHoraPartido" CssClass="col-md-2 control-label">Hora del partido</asp:Label>
-            <div class="col-md-10">
-                <asp:Calendar ID="tmrHoraPartido" runat="server" CssClass="form-control" BackColor="White" BorderColor="White" BorderWidth="1px" Font-Names="Verdana" Font-Size="9pt" ForeColor="Black" Height="190px" NextPrevFormat="FullMonth" Width="350px" BorderStyle="Outset" Caption="Seleccione la hora del partido" SelectedDate="09/17/2018 21:26:46" VisibleDate="2018-09-17">
-                    <DayHeaderStyle Font-Bold="True" Font-Size="8pt" />
-                    <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" VerticalAlign="Bottom" />
-                    <OtherMonthDayStyle ForeColor="#999999" />
-                    <SelectedDayStyle BackColor="#333399" ForeColor="White" />
-                    <TitleStyle BackColor="White" BorderColor="Black" BorderWidth="4px" Font-Bold="True" Font-Size="12pt" ForeColor="#333399" />
-                    <TodayDayStyle BackColor="#CCCCCC" />
-                </asp:Calendar>
-                &nbsp;</div>
-        </div>
-        <div class="form-group">
-            <asp:Label runat="server" AssociatedControlID="cbxSede" CssClass="col-md-2 control-label">Sede e que se llevará a cabo el partido</asp:Label>
+            <asp:Label runat="server" AssociatedControlID="cbxSede" CssClass="col-md-2 control-label">Sede en que se llevará a cabo el partido</asp:Label>
             <div class="col-md-10">
                 <asp:DropDownList ID="cbxSede" runat="server" CssClass="form-control">
                 </asp:DropDownList>
@@ -59,6 +42,27 @@
                 <asp:DropDownList ID="cbxEquipoVisitante" runat="server" CssClass="form-control">
                 </asp:DropDownList>
                 <asp:RequiredFieldValidator runat="server" ControlToValidate="cbxEquipoVisitante"
+                    CssClass="text-danger" ErrorMessage="El campo del equipo visitante es obligatorio." />
+            </div>
+        </div>
+        <div class="form-group">
+            <asp:Label runat="server" AssociatedControlID="CalFechaPartido" CssClass="col-md-2 control-label">Fecha partido</asp:Label>
+            <div class="col-md-10">
+                <asp:Calendar ID="CalFechaPartido" runat="server" CssClass="form-control" BackColor="White" BorderColor="White" BorderWidth="1px" Font-Names="Verdana" Font-Size="9pt" ForeColor="Black" Height="190px" NextPrevFormat="FullMonth" Width="350px" SelectedDate="09/17/2018 21:27:04" VisibleDate="2018-09-17">
+                    <DayHeaderStyle Font-Bold="True" Font-Size="8pt" />
+                    <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" VerticalAlign="Bottom" />
+                    <OtherMonthDayStyle ForeColor="#999999" />
+                    <SelectedDayStyle BackColor="#333399" ForeColor="White" />
+                    <TitleStyle BackColor="White" BorderColor="Black" BorderWidth="4px" Font-Bold="True" Font-Size="12pt" ForeColor="#333399" />
+                    <TodayDayStyle BackColor="#CCCCCC" />
+                </asp:Calendar>
+            </div>
+        </div>
+        <div class="form-group">
+            <asp:Label runat="server" AssociatedControlID="txtHoraPartido" CssClass="col-md-2 control-label">Hora del partido</asp:Label>
+            <div class="col-md-10">
+                <asp:TextBox ID="txtHoraPartido" runat="server" CssClass="form-control"></asp:TextBox>
+                <asp:RequiredFieldValidator runat="server" ControlToValidate="txtHoraPartido"
                     CssClass="text-danger" ErrorMessage="El campo del equipo visitante es obligatorio." />
             </div>
         </div>
