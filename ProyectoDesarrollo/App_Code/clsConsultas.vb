@@ -170,7 +170,7 @@ Public Class clsConsultas
         ' Se le pasa la conexion al comando
         Comando.Connection = ConexionBaseDatos
         ' Le Pasamos la sentencia a la variable consulta
-        Consulta = "select jugador.idpersona, count(gol) FROM jugador LEFT JOIN gol ON jugador.idjugador = gol.idjugador GROUP BY jugador.idjugador;"
+        Consulta = "SELECT jugador.idpersona, COUNT(gol) FROM jugador LEFT JOIN gol ON jugador.idjugador = gol.idjugador GROUP BY jugador.idjugador ORDER BY count DESC FETCH FIRST 10 ROWS ONLY;"
         ' Le pasamos la consulta al comando
         Comando.CommandText = Consulta
         'Debug.Write(Consulta)
@@ -182,13 +182,105 @@ Public Class clsConsultas
         DatosTabla.Columns.Clear()
         DatosTabla.Columns.Add("Nombre")
         DatosTabla.Columns.Add("Cantidad")
-        While LectorDatos.Read
+        If LectorDatos.HasRows Then
+            While LectorDatos.Read
+                Dim FilaDatos As DataRow
+                FilaDatos = DatosTabla.NewRow()
+                FilaDatos("Nombre") = ObtenerNombrePersona(LectorDatos("idPersona"))
+                FilaDatos("Cantidad") = LectorDatos("count")
+                DatosTabla.Rows.Add(FilaDatos)
+            End While
+        Else
             Dim FilaDatos As DataRow
             FilaDatos = DatosTabla.NewRow()
-            FilaDatos("Nombre") = ObtenerNombrePersona(LectorDatos("idPersona"))
-            FilaDatos("Cantidad") = LectorDatos("count")
+            FilaDatos("Nombre") = "No hay datos"
+            FilaDatos("Cantidad") = "0"
             DatosTabla.Rows.Add(FilaDatos)
-        End While
+        End If
+        ' Devolvemos el DataReader
+        Return DatosTabla
+    End Function
+    Public Function Top10MenosAmonestados() As DataTable
+        ' Creamos el objeto tipo conexión para almacenar el método de conexión de la clase clsConexion
+        Dim ConexionBaseDatos As NpgsqlConnection = New clsConexion().ConexionBaseDatosPostgres()
+        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        ' Objetos a utilizar
+        Dim Consulta As String
+        Dim Comando As NpgsqlCommand = New NpgsqlCommand()
+        Dim LectorDatos As NpgsqlDataReader
+        Dim DatosTabla As DataTable = New DataTable()
+        ' Se le pasa la conexion al comando
+        Comando.Connection = ConexionBaseDatos
+        ' Le Pasamos la sentencia a la variable consulta
+        Consulta = "SELECT jugador.idpersona, COUNT(amonestacion) FROM jugador LEFT JOIN amonestacion ON jugador.idjugador = amonestacion.idjugador GROUP BY jugador.idjugador ORDER BY count DESC FETCH FIRST 10 ROWS ONLY;"
+        ' Le pasamos la consulta al comando
+        Comando.CommandText = Consulta
+        'Debug.Write(Consulta)
+        ' Ejecutamos el comando
+        LectorDatos = Comando.ExecuteReader()
+        ' Cerramos la Conexion
+        ' ConexionBaseDatos.Close()
+        ' Agregamos los encabezados de la tabla
+        DatosTabla.Columns.Clear()
+        DatosTabla.Columns.Add("Nombre")
+        DatosTabla.Columns.Add("Cantidad")
+        If LectorDatos.HasRows Then
+            While LectorDatos.Read
+                Dim FilaDatos As DataRow
+                FilaDatos = DatosTabla.NewRow()
+                FilaDatos("Nombre") = ObtenerNombrePersona(LectorDatos("idPersona"))
+                FilaDatos("Cantidad") = LectorDatos("count")
+                DatosTabla.Rows.Add(FilaDatos)
+            End While
+        Else
+            Dim FilaDatos As DataRow
+            FilaDatos = DatosTabla.NewRow()
+            FilaDatos("Nombre") = "No hay datos"
+            FilaDatos("Cantidad") = "0"
+            DatosTabla.Rows.Add(FilaDatos)
+        End If
+        ' Devolvemos el DataReader
+        Return DatosTabla
+    End Function
+    Public Function Top10MasGoleadores() As DataTable
+        ' Creamos el objeto tipo conexión para almacenar el método de conexión de la clase clsConexion
+        Dim ConexionBaseDatos As NpgsqlConnection = New clsConexion().ConexionBaseDatosPostgres()
+        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        ' Objetos a utilizar
+        Dim Consulta As String
+        Dim Comando As NpgsqlCommand = New NpgsqlCommand()
+        Dim LectorDatos As NpgsqlDataReader
+        Dim DatosTabla As DataTable = New DataTable()
+        ' Se le pasa la conexion al comando
+        Comando.Connection = ConexionBaseDatos
+        ' Le Pasamos la sentencia a la variable consulta
+        Consulta = "SELECT equipo.nombre, COUNT(gol) FROM equipo LEFT JOIN gol ON equipo.idequipo = gol.idequipo GROUP BY equipo.idequipo ORDER BY count DESC FETCH FIRST 10 ROWS ONLY;"
+        ' Le pasamos la consulta al comando
+        Comando.CommandText = Consulta
+        'Debug.Write(Consulta)
+        ' Ejecutamos el comando
+        LectorDatos = Comando.ExecuteReader()
+        ' Cerramos la Conexion
+        ' ConexionBaseDatos.Close()
+        ' Agregamos los encabezados de la tabla
+        DatosTabla.Columns.Clear()
+        DatosTabla.Columns.Add("Nombre")
+        DatosTabla.Columns.Add("Cantidad")
+        If LectorDatos.HasRows Then
+            While LectorDatos.Read
+                Dim FilaDatos As DataRow
+                FilaDatos = DatosTabla.NewRow()
+                FilaDatos("Nombre") = LectorDatos("nombre")
+                FilaDatos("Cantidad") = LectorDatos("count")
+                DatosTabla.Rows.Add(FilaDatos)
+            End While
+        Else
+            Dim FilaDatos As DataRow
+            FilaDatos = DatosTabla.NewRow()
+            FilaDatos("Nombre") = "No hay datos"
+            FilaDatos("Cantidad") = "0"
+            DatosTabla.Rows.Add(FilaDatos)
+        End If
         ' Devolvemos el DataReader
         Return DatosTabla
     End Function
