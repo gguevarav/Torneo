@@ -109,6 +109,30 @@ Public Class clsConsultas
         ' Devolvemos el DataReader
         Return NombreCompletoPersona
     End Function
+    Public Function ObtenerNombreTecnico(idTecnico As String) As String
+        ' Creamos el objeto tipo conexión para almacenar el método de conexión de la clase clsConexion
+        Dim ConexionBaseDatos As NpgsqlConnection = New clsConexion().ConexionBaseDatosPostgres()
+        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        ' Objetos a utilizar
+        Dim Consulta As String
+        Dim Comando As NpgsqlCommand = New NpgsqlCommand()
+        Dim LectorDatos As NpgsqlDataReader
+        Dim idPersona As String
+        ' Se le pasa la conexion al comando
+        Comando.Connection = ConexionBaseDatos
+        ' Le Pasamos la sentencia a la variable consulta
+        Consulta = "SELECT idPersona From Tecnico WHERE idTecnico=" & idTecnico & ";"
+        ' Le pasamos la consulta al comando
+        Comando.CommandText = Consulta
+        'Debug.Write(Consulta)
+        ' Ejecutamos el comando
+        LectorDatos = Comando.ExecuteReader()
+        While LectorDatos.Read
+            idPersona = LectorDatos(0)
+        End While
+        ' Retornamos el valor
+        Return ObtenerNombrePersona(idPersona)
+    End Function
     Public Function ObtenerNombreEquipo(idEquipo As String) As String
         ' Creamos el objeto tipo conexión para almacenar el método de conexión de la clase clsConexion
         Dim ConexionBaseDatos As NpgsqlConnection = New clsConexion().ConexionBaseDatosPostgres()
@@ -134,6 +158,32 @@ Public Class clsConsultas
         ' ConexionBaseDatos.Close()
         ' Devolvemos el DataReader
         Return NombreEquipo
+    End Function
+    Public Function ObtenerNombre(Tabla As String, identificador As String, ValorIdentificador As String) As String
+        ' Creamos el objeto tipo conexión para almacenar el método de conexión de la clase clsConexion
+        Dim ConexionBaseDatos As NpgsqlConnection = New clsConexion().ConexionBaseDatosPostgres()
+        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        ' Objetos a utilizar
+        Dim Consulta As String
+        Dim Comando As NpgsqlCommand = New NpgsqlCommand()
+        Dim LectorDatos As NpgsqlDataReader
+        Dim NombreDevolver As String
+        ' Se le pasa la conexion al comando
+        Comando.Connection = ConexionBaseDatos
+        ' Le Pasamos la sentencia a la variable consulta
+        Consulta = "SELECT Nombre From " & Tabla & " WHERE " & identificador & "=" & ValorIdentificador & ";"
+        ' Le pasamos la consulta al comando
+        Comando.CommandText = Consulta
+        'Debug.Write(Consulta)
+        ' Ejecutamos el comando
+        LectorDatos = Comando.ExecuteReader()
+        While LectorDatos.Read
+            NombreDevolver = LectorDatos(0)
+        End While
+        ' Cerramos la Conexion
+        ' ConexionBaseDatos.Close()
+        ' Devolvemos el DataReader
+        Return NombreDevolver
     End Function
     ' Realizar Selects
     Public Function SentenciaSelectConCondiciones(Tabla As String, CamposDevolver As String, Restricciones As String) As NpgsqlDataReader
@@ -329,4 +379,156 @@ Public Class clsConsultas
         ' Cerramos la Conexion
         ' ConexionBaseDatos.Close()
     End Sub
+    Public Function VerEquipos() As DataTable
+        ' Creamos el objeto tipo conexión para almacenar el método de conexión de la clase clsConexion
+        Dim ConexionBaseDatos As NpgsqlConnection = New clsConexion().ConexionBaseDatosPostgres()
+        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        ' Objetos a utilizar
+        Dim Consulta As String
+        Dim Comando As NpgsqlCommand = New NpgsqlCommand()
+        Dim LectorDatos As NpgsqlDataReader
+        Dim DatosTabla As DataTable = New DataTable()
+        ' Se le pasa la conexion al comando
+        Comando.Connection = ConexionBaseDatos
+        ' Le Pasamos la sentencia a la variable consulta
+        Consulta = "Select * From Equipo;"
+        ' Le pasamos la consulta al comando
+        Comando.CommandText = Consulta
+        'Debug.Write(Consulta)
+        ' Ejecutamos el comando
+        LectorDatos = Comando.ExecuteReader()
+        ' Cerramos la Conexion
+        ' ConexionBaseDatos.Close()
+        ' Agregamos los encabezados de la tabla
+        DatosTabla.Columns.Clear()
+        DatosTabla.Columns.Add("Código")
+        DatosTabla.Columns.Add("Sede")
+        DatosTabla.Columns.Add("Nombre")
+        DatosTabla.Columns.Add("Técnico")
+        If LectorDatos.HasRows Then
+            While LectorDatos.Read
+                Dim FilaDatos As DataRow
+                FilaDatos = DatosTabla.NewRow()
+                FilaDatos("Código") = LectorDatos("idEquipo")
+                FilaDatos("Sede") = ObtenerNombre("Sede", "idSede", LectorDatos("idSede"))
+                FilaDatos("Nombre") = LectorDatos("Nombre")
+                FilaDatos("Técnico") = ObtenerNombreTecnico(LectorDatos("idTecnico"))
+                DatosTabla.Rows.Add(FilaDatos)
+            End While
+        Else
+            Dim FilaDatos As DataRow
+            FilaDatos = DatosTabla.NewRow()
+            FilaDatos("Nombre") = "No hay datos"
+            FilaDatos("Cantidad") = "0"
+            DatosTabla.Rows.Add(FilaDatos)
+        End If
+        ' Devolvemos el DataReader
+        Return DatosTabla
+    End Function
+    Public Function VerPartidos() As DataTable
+        ' Creamos el objeto tipo conexión para almacenar el método de conexión de la clase clsConexion
+        Dim ConexionBaseDatos As NpgsqlConnection = New clsConexion().ConexionBaseDatosPostgres()
+        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        ' Objetos a utilizar
+        Dim Consulta As String
+        Dim Comando As NpgsqlCommand = New NpgsqlCommand()
+        Dim LectorDatos As NpgsqlDataReader
+        Dim DatosTabla As DataTable = New DataTable()
+        ' Se le pasa la conexion al comando
+        Comando.Connection = ConexionBaseDatos
+        ' Le Pasamos la sentencia a la variable consulta
+        Consulta = "Select * From Partido;"
+        ' Le pasamos la consulta al comando
+        Comando.CommandText = Consulta
+        'Debug.Write(Consulta)
+        ' Ejecutamos el comando
+        LectorDatos = Comando.ExecuteReader()
+        ' Cerramos la Conexion
+        ' ConexionBaseDatos.Close()
+        ' Agregamos los encabezados de la tabla
+        DatosTabla.Columns.Clear()
+        DatosTabla.Columns.Add("Código")
+        DatosTabla.Columns.Add("Torneo")
+        DatosTabla.Columns.Add("Fecha")
+        DatosTabla.Columns.Add("Sede")
+        DatosTabla.Columns.Add("Equipo Local")
+        DatosTabla.Columns.Add("Equipo Visitante")
+        DatosTabla.Columns.Add("Estado")
+        DatosTabla.Columns.Add("Hora")
+        If LectorDatos.HasRows Then
+            While LectorDatos.Read
+                Dim FilaDatos As DataRow
+                FilaDatos = DatosTabla.NewRow()
+                FilaDatos("Código") = LectorDatos("idpartido")
+                FilaDatos("Torneo") = ObtenerNombre("Torneo", "idTorneo", LectorDatos("idTorneo"))
+                FilaDatos("Fecha") = LectorDatos("Fecha")
+                FilaDatos("Sede") = ObtenerNombre("Sede", "idSede", LectorDatos("idSede"))
+                FilaDatos("Equipo Local") = ObtenerNombre("Equipo", "idEquipo", LectorDatos("equipolocal"))
+                FilaDatos("Equipo Visitante") = ObtenerNombre("Equipo", "idEquipo", LectorDatos("equipovisitante"))
+                FilaDatos("Estado") = LectorDatos("Estado")
+                FilaDatos("Hora") = LectorDatos("Hora")
+                DatosTabla.Rows.Add(FilaDatos)
+            End While
+        Else
+            Dim FilaDatos As DataRow
+            FilaDatos = DatosTabla.NewRow()
+            FilaDatos("Nombre") = "No hay datos"
+            FilaDatos("Cantidad") = "0"
+            DatosTabla.Rows.Add(FilaDatos)
+        End If
+        ' Devolvemos el DataReader
+        Return DatosTabla
+    End Function
+    Public Function VerJugadores() As DataTable
+        ' Creamos el objeto tipo conexión para almacenar el método de conexión de la clase clsConexion
+        Dim ConexionBaseDatos As NpgsqlConnection = New clsConexion().ConexionBaseDatosPostgres()
+        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        ' Objetos a utilizar
+        Dim Consulta As String
+        Dim Comando As NpgsqlCommand = New NpgsqlCommand()
+        Dim LectorDatos As NpgsqlDataReader
+        Dim DatosTabla As DataTable = New DataTable()
+        ' Se le pasa la conexion al comando
+        Comando.Connection = ConexionBaseDatos
+        ' Le Pasamos la sentencia a la variable consulta
+        Consulta = "Select * From Jugador;"
+        ' Le pasamos la consulta al comando
+        Comando.CommandText = Consulta
+        'Debug.Write(Consulta)
+        ' Ejecutamos el comando
+        LectorDatos = Comando.ExecuteReader()
+        ' Cerramos la Conexion
+        ' ConexionBaseDatos.Close()
+        ' Agregamos los encabezados de la tabla
+        DatosTabla.Columns.Clear()
+        DatosTabla.Columns.Add("Código")
+        DatosTabla.Columns.Add("Nombre")
+        DatosTabla.Columns.Add("Equipo")
+        DatosTabla.Columns.Add("Numero")
+        DatosTabla.Columns.Add("Fecha inicio")
+        DatosTabla.Columns.Add("Fecha fin")
+        DatosTabla.Columns.Add("Estado")
+        If LectorDatos.HasRows Then
+            While LectorDatos.Read
+                Dim FilaDatos As DataRow
+                FilaDatos = DatosTabla.NewRow()
+                FilaDatos("Código") = LectorDatos("idpartido")
+                FilaDatos("Nombre") = ObtenerNombrePersona(LectorDatos("idTorneo"))
+                FilaDatos("Equipo") = ObtenerNombre("Equipo", "idEquipo", LectorDatos("idEquipo"))
+                FilaDatos("Nombre") = LectorDatos("Numero")
+                FilaDatos("Fecha inicio") = LectorDatos("Fechainicio")
+                FilaDatos("Fecha fin") = LectorDatos("Fechafin")
+                FilaDatos("Estado") = LectorDatos("Estado")
+                DatosTabla.Rows.Add(FilaDatos)
+            End While
+        Else
+            Dim FilaDatos As DataRow
+            FilaDatos = DatosTabla.NewRow()
+            FilaDatos("Nombre") = "No hay datos"
+            FilaDatos("Cantidad") = "0"
+            DatosTabla.Rows.Add(FilaDatos)
+        End If
+        ' Devolvemos el DataReader
+        Return DatosTabla
+    End Function
 End Class
